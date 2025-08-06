@@ -69,6 +69,8 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    canvas: Canva;
+    messages: Message;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +79,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    canvas: CanvasSelect<false> | CanvasSelect<true>;
+    messages: MessagesSelect<false> | MessagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -119,6 +123,12 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  firstName: string;
+  lastName: string;
+  wechatId?: string | null;
+  role: 'admin' | 'user';
+  optin1?: boolean | null;
+  optin2?: boolean | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -143,7 +153,7 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -155,6 +165,42 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "canvas".
+ */
+export interface Canva {
+  id: string;
+  user: string | User;
+  provenance: string;
+  creation:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  media?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "messages".
+ */
+export interface Message {
+  id: string;
+  user: string | User;
+  canvas: string | Canva;
+  firstName: string;
+  wechatId: string;
+  email: string;
+  message: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -170,6 +216,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'canvas';
+        value: string | Canva;
+      } | null)
+    | ({
+        relationTo: 'messages';
+        value: string | Message;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -218,6 +272,12 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  wechatId?: T;
+  role?: T;
+  optin1?: T;
+  optin2?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -252,6 +312,32 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "canvas_select".
+ */
+export interface CanvasSelect<T extends boolean = true> {
+  user?: T;
+  provenance?: T;
+  creation?: T;
+  media?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "messages_select".
+ */
+export interface MessagesSelect<T extends boolean = true> {
+  user?: T;
+  canvas?: T;
+  firstName?: T;
+  wechatId?: T;
+  email?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
