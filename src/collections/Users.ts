@@ -19,20 +19,6 @@ export const Users: CollectionConfig = {
     fields: [
         // Email added by default
         {
-            name: 'firstName',
-            type: 'text',
-            required: true,
-        },
-        {
-            name: 'lastName',
-            type: 'text',
-            required: true,
-        },
-        {
-            name: 'wechatId',
-            type: 'text',
-        },
-        {
             name: 'role',
             type: 'select',
             options: [
@@ -47,14 +33,6 @@ export const Users: CollectionConfig = {
             ],
             defaultValue: 'user',
             required: true,
-        },
-        {
-            name: 'optin1',
-            type: 'checkbox',
-        },
-        {
-            name: 'optin2',
-            type: 'checkbox',
         },
     ],
     endpoints: []

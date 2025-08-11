@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     canvas: Canva;
     messages: Message;
+    participants: Participant;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -81,6 +82,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     canvas: CanvasSelect<false> | CanvasSelect<true>;
     messages: MessagesSelect<false> | MessagesSelect<true>;
+    participants: ParticipantsSelect<false> | ParticipantsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -123,12 +125,7 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
-  firstName: string;
-  lastName: string;
-  wechatId?: string | null;
   role: 'admin' | 'user';
-  optin1?: boolean | null;
-  optin2?: boolean | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -172,7 +169,7 @@ export interface Media {
  */
 export interface Canva {
   id: string;
-  user: string | User;
+  user: string | Participant;
   provenance: string;
   creation:
     | {
@@ -189,11 +186,26 @@ export interface Canva {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "participants".
+ */
+export interface Participant {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  wechatId: string;
+  optin1?: boolean | null;
+  optin2?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "messages".
  */
 export interface Message {
   id: string;
-  user: string | User;
+  user: string | Participant;
   canvas: string | Canva;
   firstName: string;
   wechatId: string;
@@ -224,6 +236,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'messages';
         value: string | Message;
+      } | null)
+    | ({
+        relationTo: 'participants';
+        value: string | Participant;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -272,12 +288,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  firstName?: T;
-  lastName?: T;
-  wechatId?: T;
   role?: T;
-  optin1?: T;
-  optin2?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -336,6 +347,20 @@ export interface MessagesSelect<T extends boolean = true> {
   wechatId?: T;
   email?: T;
   message?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "participants_select".
+ */
+export interface ParticipantsSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  email?: T;
+  wechatId?: T;
+  optin1?: T;
+  optin2?: T;
   updatedAt?: T;
   createdAt?: T;
 }

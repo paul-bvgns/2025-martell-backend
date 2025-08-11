@@ -13,4 +13,21 @@ export const Media: CollectionConfig = {
         },
     ],
     upload: true,
+    hooks: {
+        beforeDelete: [
+            async ({req, id}) => {
+                // Delete the corresponding canvas
+                console.log(`Deleting media with ID: ${id}`)
+                await req.payload.delete({
+                    collection: 'canvas',
+                    where: {
+                        media: {
+                            equals: id,
+                        }
+                    }
+
+                })
+            },
+        ],
+    }
 }

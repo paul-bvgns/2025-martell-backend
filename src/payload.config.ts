@@ -11,6 +11,7 @@ import {Users} from './collections/Users'
 import {Media} from './collections/Media'
 import {Canvas} from "@/collections/Canvas";
 import {Messages} from "@/collections/Messages";
+import {Participant} from "@/collections/Participant";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,7 +30,7 @@ export default buildConfig({
     cors: [
         'http://localhost:5173'
     ],
-    collections: [Users, Media, Canvas, Messages],
+    collections: [Users, Media, Canvas, Messages, Participant],
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || '',
     typescript: {

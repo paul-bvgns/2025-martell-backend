@@ -10,7 +10,7 @@ export const Messages: CollectionConfig = {
         {
             name: 'user',
             type: 'relationship',
-            relationTo: 'users',
+            relationTo: 'participants',
             required: true,
         },
         {

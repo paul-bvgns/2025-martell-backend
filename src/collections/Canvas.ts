@@ -10,7 +10,7 @@ export const Canvas: CollectionConfig = {
         {
             name: 'user',
             type: 'relationship',
-            relationTo: 'users',
+            relationTo: 'participants',
             required: true,
         },
         {
@@ -25,9 +25,31 @@ export const Canvas: CollectionConfig = {
         },
         {
             name: 'media',
-            type: 'relationship',
+            type: 'upload',
             relationTo: 'media',
         },
-
     ],
+    hooks: {
+        afterDelete: [
+            async ({req, id, doc}) => {
+                // Delete the corresponding media
+                await req.payload.delete({
+                    collection: 'media',
+                    where: {
+                        id: {
+                            equals: doc.media.id,
+                        }
+                    }
+                })
+                await req.payload.delete({
+                    collection: 'messages',
+                    where: {
+                        canvas: {
+                            equals: id,
+                        }
+                    }
+                })
+            },
+        ],
+    }
 }
