@@ -169,7 +169,7 @@ export interface Media {
  */
 export interface Canva {
   id: string;
-  user: string | Participant;
+  user?: (string | null) | Participant;
   provenance: string;
   creation:
     | {
@@ -181,6 +181,7 @@ export interface Canva {
     | boolean
     | null;
   media?: (string | null) | Media;
+  active?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -333,6 +334,7 @@ export interface CanvasSelect<T extends boolean = true> {
   provenance?: T;
   creation?: T;
   media?: T;
+  active?: T;
   updatedAt?: T;
   createdAt?: T;
 }

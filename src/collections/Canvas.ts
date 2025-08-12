@@ -5,13 +5,13 @@ export const Canvas: CollectionConfig = {
     access: {
         read: () => true,
         create: () => true,
+        update: () => true,
     },
     fields: [
         {
             name: 'user',
             type: 'relationship',
             relationTo: 'participants',
-            required: true,
         },
         {
             name: 'provenance',
@@ -28,6 +28,11 @@ export const Canvas: CollectionConfig = {
             type: 'upload',
             relationTo: 'media',
         },
+        {
+            name: 'active',
+            type: 'checkbox',
+            defaultValue: true,
+        }
     ],
     hooks: {
         afterDelete: [
