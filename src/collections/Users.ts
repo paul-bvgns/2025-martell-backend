@@ -5,17 +5,6 @@ export const Users: CollectionConfig = {
     admin: {
         useAsTitle: 'email',
     },
-    auth: {
-        forgotPassword: {
-            generateEmailHTML: ({req, token, user}) => {
-                // Use the token provided to allow your user to reset their password
-                const resetPasswordURL = `${process.env.EMAIL_REDIRECTION_URL}/${token}`
-
-                return ``
-
-            }
-        }
-    },
     fields: [
         // Email added by default
         {
