@@ -5,6 +5,7 @@ export const Users: CollectionConfig = {
     admin: {
         useAsTitle: 'email',
     },
+    auth: true,
     fields: [
         // Email added by default
         {
@@ -24,5 +25,4 @@ export const Users: CollectionConfig = {
             required: true,
         },
     ],
-    endpoints: []
 }
