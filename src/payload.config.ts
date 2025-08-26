@@ -17,7 +17,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-    serverURL: 'http://localhost:3000',
+    serverURL: process.env.SERVER_URL || 'http://localhost:3000',
     admin: {
         user: Users.slug,
         importMap: {
@@ -25,10 +25,10 @@ export default buildConfig({
         },
     },
     csrf: [
-        'http://localhost:5173'
+        process.env.SERVER_URL || 'http://localhost:3000'
     ],
     cors: [
-        'http://localhost:5173'
+        process.env.SERVER_URL || 'http://localhost:3000'
     ],
     collections: [Users, Media, Canvas, Messages, Participant],
     editor: lexicalEditor(),
